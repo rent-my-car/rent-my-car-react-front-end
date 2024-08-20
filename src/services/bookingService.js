@@ -1,5 +1,7 @@
+import React from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+
 
 
 const createBooking = async (URL, bookingData) => {
@@ -42,22 +44,28 @@ const createBooking = async (URL, bookingData) => {
 };
 
 
-export const fetchBookings = async (URL) => {
-  try {
-    const response = await axios.get(URL);
-    return response.data; // Return the car listings data
+export const fetchBookings = async (URL, token
+) => {
+    try {
+        const response = await axios.get(URL, {
+            headers: {
+                Authorization: `Bearer ${localStorage['token']}`,
+            }
+        }
+        );
+        return response.data; // Return the car listings data
 
-  } catch (error) {
-    console.log(error);
-    console.error(error.response.data.message);
-    throw new Error(error.response.data.message);
-  }
+    } catch (error) {
+        console.log(error);
+        // console.error(error.response.data.message);
+       throw error;
+    }
 };
 
 
 
 export default {
-  fetchBookings,createBooking,
+    fetchBookings, createBooking,
 };
 
 

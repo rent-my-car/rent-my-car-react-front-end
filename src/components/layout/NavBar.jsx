@@ -10,8 +10,9 @@ const NavBar = () => {
     logout(); // Call logout function
     navigate('/'); // Redirect to home page
   };
+  console.log(user);
 
-  console.log(user.role);
+  // console.log(user.role);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -29,7 +30,7 @@ const NavBar = () => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
         <ul className="navbar-nav">
-          {user.role === 'ADMIN' && (
+          {user.role === 'ROLE_ADMIN' && (
             <>
             {/* <li className="nav-item">
               <Link className="nav-link" to="/admin-dashboard">Admin Dashboard</Link>
@@ -66,10 +67,24 @@ const NavBar = () => {
             </li>
           </>
           )}
-          {user.role === 'HOST' && (
+          {user.role === 'ROLE_HOST' && (
             <>
-              <li className="nav-item">
-                <Link className="nav-link" to="/my-cars">My Cars</Link>
+              <li className="nav-item dropdown">
+                <Link
+                  className="nav-link dropdown-toggle"
+                  to="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  My Cars
+                </Link>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <Link className="dropdown-item" to="/confirmed-car-approvals">Confirmed Cars</Link>
+                  <Link className="dropdown-item" to="/pending-car-approvals">Pending Cars</Link>
+                </div>
               </li>
               <li className="nav-item dropdown">
                 <Link
@@ -94,15 +109,12 @@ const NavBar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/add-car">Add Car</Link>
               </li>
-              {/* <li className="nav-item">
-              <Link className="nav-link" to="/car-list">Car List</Link>
-            </li> */}
-              {/* <li className="nav-item">
-              <Link className="nav-link" to="/car-update">Update Car</Link>
-            </li> */}
-              {/* <li className="nav-item">
-                <Link className="nav-link" to="/update-user">Update User</Link>
-              </li> */}
+              <li className="nav-item">
+                <Link className="nav-link" to="/car-list">Car List</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/car-update">Update Car</Link>
+              </li>
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
@@ -123,7 +135,7 @@ const NavBar = () => {
               </li>
             </>
           )}
-          {user.role === 'GUEST' && (
+          {user.role === 'ROLE_GUEST' && (
            <>
            {/* <li className="nav-item">
              <Link className="nav-link" to="/guest-home">Home</Link>

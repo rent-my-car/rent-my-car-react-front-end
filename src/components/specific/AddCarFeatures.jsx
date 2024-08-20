@@ -1,8 +1,8 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import './AddCarFeatures.css'; // Import custom CSS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './AddCarFeatures.css';
 
-const AddCarFeatures = ({ carData, handleChange }) => {
+const AddCarFeatures = ({ handleFeatureChange }) => {
     return (
         <div className="container mt-5">
             <div className="border p-4 rounded">
@@ -13,8 +13,8 @@ const AddCarFeatures = ({ carData, handleChange }) => {
                             <input
                                 type="checkbox"
                                 name="hasUsbCharger"
-                                checked={carData.hasUsbCharger || false}
-                                onChange={handleChange}
+
+                                onChange={handleFeatureChange}
                                 className="form-check-input"
                                 id="hasUsbCharger"
                             />
@@ -26,8 +26,8 @@ const AddCarFeatures = ({ carData, handleChange }) => {
                             <input
                                 type="checkbox"
                                 name="hasBluetooth"
-                                checked={carData.hasBluetooth || false}
-                                onChange={handleChange}
+
+                                onChange={handleFeatureChange}
                                 className="form-check-input"
                                 id="hasBluetooth"
                             />
@@ -41,8 +41,8 @@ const AddCarFeatures = ({ carData, handleChange }) => {
                             <input
                                 type="checkbox"
                                 name="hasPowerSteering"
-                                checked={carData.hasPowerSteering || false}
-                                onChange={handleChange}
+
+                                onChange={handleFeatureChange}
                                 className="form-check-input"
                                 id="hasPowerSteering"
                             />
@@ -54,8 +54,8 @@ const AddCarFeatures = ({ carData, handleChange }) => {
                             <input
                                 type="checkbox"
                                 name="hasAirBags"
-                                checked={carData.hasAirBags || false}
-                                onChange={handleChange}
+
+                                onChange={handleFeatureChange}
                                 className="form-check-input"
                                 id="hasAirBags"
                             />
@@ -69,8 +69,8 @@ const AddCarFeatures = ({ carData, handleChange }) => {
                             <input
                                 type="checkbox"
                                 name="hasAbs"
-                                checked={carData.hasAbs || false}
-                                onChange={handleChange}
+
+                                onChange={handleFeatureChange}
                                 className="form-check-input"
                                 id="hasAbs"
                             />
@@ -84,8 +84,8 @@ const AddCarFeatures = ({ carData, handleChange }) => {
                             <input
                                 type="checkbox"
                                 name="hasAc"
-                                checked={carData.hasAc || false}
-                                onChange={handleChange}
+
+                                onChange={handleFeatureChange}
                                 className="form-check-input"
                                 id="hasAc"
                             />

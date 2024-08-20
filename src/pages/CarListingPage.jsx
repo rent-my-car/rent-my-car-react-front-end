@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import CarCard from '../components/common/CarCard';
 import carService from '../services/carService';
+import { useAuth } from '../context/AuthContext';
 
-const CarListingPage = () => {
+const CarListingPage = ({listingType}) => {
     const [carData, setCarData] = useState([]);
-    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
+    const { user } = useAuth();
 
     useEffect(() => {
-        const getCarListings = async () => {
+        const fetchCarListing = async () => {
+            setLoading(true);
+            setError('');
+
             try {
-                const userId = localStorage.getItem("userId");
-                const data = await carService.fetchConfirmedCarListings(userId); // Call the service function
+                let data;
+                if (listingType === 'confirmed') {
+                    data = await carService.fetchConfirmedCarListings(user.token);
+                } else if (listingType === 'pending') {
+                    data = await carService.fetchPendingCarListings(user.token);
+                } else {
+                    throw new Error('Invalid listing type');
+                }
                 setCarData(data);
-                console.log()
-            } catch (error) {
-                setError(error.message);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
             }
         };
 
-        getCarListings();
-    }, []); // Empty dependency array to run only on mount
+        fetchCarListing();
+    }, [listingType, user.token]);
 
     return (
         <div className="container">
@@ -38,5 +51,4 @@ const CarListingPage = () => {
         </div>
     );
 };
-
 export default CarListingPage;
