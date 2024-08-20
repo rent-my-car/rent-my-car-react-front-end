@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DetailedCarCard from '../components/specific/DetailedCarCard';
- // Adjusted path
+import { useAuth } from '../context/AuthContext';
 import bookingService from '../services/bookingService';
 
 const PastBooking = () => {
     const [bookings, setBookings] = useState([]);
     const [error, setError] = useState(null);
-    const userId = localStorage.getItem('userId'); // Get userId from localStorage
-    const UPCOMING_BOOKING_API_URL = `http://localhost:8080/booking/past_booking/${userId}`; // Your API URL
+    const UPCOMING_BOOKING_API_URL = `http://localhost:8080/booking/past_booking`;
+    const { user } = useAuth(); const userId = user.id;
 
     useEffect(() => {
         const getBookings = async () => {
             try {
-                const data = await bookingService.fetchBookings(UPCOMING_BOOKING_API_URL);
+                const data = await bookingService.fetchBookings(UPCOMING_BOOKING_API_URL, user.token);
                 setBookings(data);
             } catch (error) {
-                setError(error.message);
+                setError(error.response.data.message);
             }
         };
 
@@ -33,15 +33,14 @@ const PastBooking = () => {
                 <h1>My Past Bookings</h1>
             </div>
             {error && <div className="alert alert-danger">{error}</div>}
-            <div className="border p-4 rounded">
-                {bookings.length > 0 ? (
+            {!error &&  <div className="border p-4 rounded">
+                {
                     bookings.map((booking) => (
                         <DetailedCarCard key={booking.id} booking={booking} />
                     ))
-                ) : (
-                    <p>No bookings found.</p>
-                )}
-            </div>
+                }
+            </div>}
+           
         </div>
     );
 };

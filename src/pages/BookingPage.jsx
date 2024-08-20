@@ -5,7 +5,6 @@ import DetailedCarCard from '../components/specific/DetailedCarCard';
 import BillingDetails from '../components/specific/BillingDetails';
 import AddressList from '../components/specific/AddressList';
 import carService from '../services/carService';
-import addressService from '../services/addressService';
 import bookingService from '../services/bookingService'; // Import the booking service
 import { useAuth } from '../context/AuthContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,10 +20,8 @@ const BookingPage = () => {
   const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [addresses, setAddresses] = useState([]);
-  const [addressLoading, setAddressLoading] = useState(false);
-  const [addressError, setAddressError] = useState('');
-  const [selectedAddress, setSelectedAddress] = useState(null); // Track selected address
+  const [selectedAddress, setSelectedAddress] = useState(null);
+ 
   const [bookingError, setBookingError] = useState(''); // Track booking errors
 
   // Retrieve car ID, pickup date, and dropoff date from localStorage
@@ -56,27 +53,6 @@ const BookingPage = () => {
     fetchCarData(); // Call the function to fetch car data
   }, [carId]); // Dependency array ensures this effect runs when carId changes
 
-  // useEffect hook to fetch user addresses when the component mounts or user login status changes
-  useEffect(() => {
-    const fetchUserAddresses = async () => {
-      if (isLoggedIn) {
-        setAddressLoading(true); // Set address loading state to true while fetching addresses
-        setAddressError(''); // Clear previous address errors
-        
-        try {
-          // Fetch user addresses from address service
-          const response = await addressService.fetchUserAddresses(user.id);
-          setAddresses(response); // Store fetched addresses
-        } catch (err) {
-          setAddressError(err.message); // Set address error message if there's an issue
-        } finally {
-          setAddressLoading(false); // Set address loading state to false after fetching
-        }
-      }
-    };
-
-    fetchUserAddresses(); // Call the function to fetch user addresses
-  }, [isLoggedIn, user.id]); // Dependency array ensures this effect runs when isLoggedIn or user.id changes
 
   if (!pickupDate || !dropoffDate) {
     return <p className="text-danger">Missing booking details. Please go back and try again.</p>;
@@ -145,16 +121,6 @@ const BookingPage = () => {
     }
   };
 
-  // Handle address selection
-  const handleAddressSelect = (address) => {
-    setSelectedAddress(address); // Update selected address
-  };
-
-  // Handle adding a new address
-  const handleAddAddress = () => {
-    // Logic for adding a new address
-  };
-
   return (
     <div className="container my-4">
       <h2>Booking Details</h2>
@@ -191,17 +157,8 @@ const BookingPage = () => {
       {isLoggedIn && (
         <div className="row mb-4">
           <div className="col-md-12">
-            {addressLoading ? (
-              <p>Loading addresses...</p>
-            ) : addressError ? (
-              <p className="text-danger">{addressError}</p>
-            ) : (
-              <AddressList
-                addresses={addresses}
-                onAddressSelect={handleAddressSelect}
-                onAddAddress={handleAddAddress}
-              />
-            )}
+          <h4>Select Address for Booking:</h4>
+              <AddressList onAddressSelect ={setSelectedAddress}/>
             {bookingError && <p className="text-danger">{bookingError}</p>} {/* Display booking errors */}
           </div>
         </div>
